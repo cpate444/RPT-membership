@@ -468,29 +468,40 @@
     text-transform: uppercase;
   }
 
+  /* Mobile: keep tier cards at full desktop size, horizontally scrollable */
   @media (max-width: 900px) {
     .page { min-height: auto; padding: 20px 16px; }
-    .tier-grid { gap: 6px; }
-    .tier-card { padding: 14px 8px 12px; }
-    .price { font-size: 22px !important; }
-    .tier-name { font-size: 12px !important; letter-spacing: 0.12em !important; }
-    .tier-italic { font-size: 10px !important; margin-bottom: 12px !important; }
-    .feature { font-size: 9.5px !important; gap: 6px !important; }
-    .feature .icon svg { width: 11px !important; height: 11px !important; }
-    .strike { font-size: 10px !important; letter-spacing: 0.1em !important; }
-    .save { font-size: 8px !important; padding: 4px 8px !important; letter-spacing: 0.15em !important; }
-    .cta { font-size: 8px !important; padding: 9px 10px !important; letter-spacing: 0.2em !important; }
+
+    /* Make the tier section a horizontal scroll container while keeping cards full-sized */
+    .tier-grid-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -16px;            /* bleed to edges so scroll fills viewport */
+      padding: 4px 16px 16px;
+      scroll-snap-type: x mandatory;
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 240px);  /* fixed desktop-feel width per card */
+      gap: 12px;
+      width: max-content;          /* let the row exceed the viewport */
+    }
+    .tier-card {
+      scroll-snap-align: start;
+    }
+
+    /* Scroll-hint shadow on the right edge */
+    .tier-grid-wrapper::-webkit-scrollbar { height: 6px; }
+    .tier-grid-wrapper::-webkit-scrollbar-track { background: transparent; }
+    .tier-grid-wrapper::-webkit-scrollbar-thumb { background: rgba(184, 165, 120, 0.4); border-radius: 3px; }
+
+    /* Duos still respond normally */
     .duo-section { margin-top: 56px; padding-top: 36px; }
     .duo-card { padding: 24px 20px 20px; }
     .duo-card .price { font-size: 28px; }
   }
 
   @media (max-width: 600px) {
-    .tier-card { padding: 14px 8px 12px; }
-    .price { font-size: 22px !important; }
-    .tier-name { font-size: 11px !important; letter-spacing: 0.1em !important; }
-    .feature { font-size: 9px !important; gap: 5px !important; }
-    .feature .icon svg { width: 10px !important; height: 10px !important; }
     .duos { grid-template-columns: 1fr; gap: 12px; }
   }
 
@@ -518,6 +529,7 @@
     </div>
   </div>
 
+  <div class="tier-grid-wrapper">
   <div class="tier-grid">
 
     <!-- 01 — FOUNDATION -->
@@ -764,6 +776,7 @@
       </ul>
     </div>
 
+  </div>
   </div>
 
   <!-- DUO MEMBERSHIPS -->
